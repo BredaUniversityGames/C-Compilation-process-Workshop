@@ -1,4 +1,4 @@
-# C++ Compilation process Workshop
+# C++ Compilation process Workshop 2021
 
 by Simon Renger <170636@buas.nl / simon.renger@gmail.com>
 

@@ -1,6 +1,6 @@
 #include "engine.hpp"
 
-[[noexcept]][[nodiscard]] engine_t create(){
+[[nodiscard]] engine_t create() noexcept{
     engine_t e{};
     e.world.entities.items = new entity_t[100];
     e.world.entities.capacity = 100;

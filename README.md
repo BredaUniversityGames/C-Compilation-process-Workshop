@@ -323,11 +323,11 @@ struct engine{
 // stuff
 };
 
-[[noexcept]][[nodiscard]] engine create();
+[[nodiscard]] engine create() noexcept;
 engine.cpp
 #include "engine.hpp"
 
-[[noexcept]][[nodiscard]] engine create(){
+[[nodiscard]] engine create() noexcept{
     return {};
 }
 ```
@@ -519,7 +519,7 @@ Under `RELOCATIONS #3` we find something intersting:
 00000005  REL32 00000000               9       ?create@@YA?AUengine@@XZ (struct engine __cdecl create(void))
 ```
 
-This somehow looks like: `[[noexcept]][[nodiscard ]] engine create()`. That is correct! In C++ we mangle names we (the compiler) renames the name after they implementation defined scheme (yes clang uses a different method than msvc! GREAT!)
+This somehow looks like: `[[nodiscard ]] engine create() noexcept`. That is correct! In C++ we mangle names we (the compiler) renames the name after they implementation defined scheme (yes clang uses a different method than msvc! GREAT!)
 
 > The reason for this is that we can have overloads (in short!) more infos here https://www.geeksforgeeks.org/extern-c-in-c/
 
@@ -621,10 +621,10 @@ struct engine_t{
     world_t world;    
 };
 
-[[noexcept]][[nodiscard ]] engine_t create();
+[[nodiscard ]] engine_t create() noexcept;
 #include "engine.hpp"
 
-[[noexcept]][[nodiscard]] engine_t create(){
+[[nodiscard]] engine_t create() noexcept{
     engine_t e{};
     e.world.entities.items = new entity_t[100];
     e.world.entities.capacity = 100;
@@ -671,34 +671,34 @@ struct json_array{
     unsigned int len;
 };
 
-[[noexcept]][[nodiscard]] json parse(cstring path);
+[[nodiscard]] json parse(cstring path) noexcept;
 
-[[noexcept]][[nodiscard]] json_object get_object(const json& root,cstring key);
+[[nodiscard]] json_object get_object(const json& root,cstring key) noexcept;
 
-[[noexcept]][[nodiscard]] json_array get_array(const json& root,cstring key);
+[[nodiscard]] json_array get_array(const json& root,cstring key) noexcept;
 
-[[noexcept]][[nodiscard]] string_view get_string(const json& root,cstring key);
+[[nodiscard]] string_view get_string(const json& root,cstring key) noexcept;
 
-[[noexcept]][[nodiscard]] double get_number(const json& root,cstring key);
+[[nodiscard]] double get_number(const json& root,cstring key) noexcept;
 #include "json.hpp"
 
-[[noexcept]][[nodiscard]] json parse(cstring path){
+[[nodiscard]] json parse(cstring path) noexcept{
     return {};
 }
 
-[[noexcept]][[nodiscard]] json_object get_object(const json& root,cstring key){
+[[nodiscard]] json_object get_object(const json& root,cstring key) noexcept{
     return {};
 }
 
-[[noexcept]][[nodiscard]] json_array get_array(const json& root,cstring key){
+[[nodiscard]] json_array get_array(const json& root,cstring key) noexcept{
     return {};
 }
 
-[[noexcept]][[nodiscard]] string_view get_string(const json& root,cstring key){
+[[nodiscard]] string_view get_string(const json& root,cstring key) noexcept{
     return {};
 }
 
-[[noexcept]][[nodiscard]] double get_number(const json& root,cstring key){
+[[nodiscard]] double get_number(const json& root,cstring key) noexcept{
     return {};
 }
 ```
@@ -714,12 +714,12 @@ struct level{
 };
 
 
-[[noexcept]] void load(engine_t& engine, cstring level);
+ void load(engine_t& engine, cstring level) noexcept;
 level.cpp
 #include "engine.hpp"
 #include "json.hpp"
 
-[[noexcept]] void load(engine_t& engine, cstring level){
+ void load(engine_t& engine, cstring level) noexcept{
     json l{parse(level)};
 }
 main.cpp
@@ -840,11 +840,11 @@ RELOCATIONS #4
 
 We have 3:
 
-| Symbol                                                       |                                                           |
-| ------------------------------------------------------------ | --------------------------------------------------------- |
-| `?create@@YA?AUengine_t@@XZ (struct engine_t __cdecl create(void))` | `[[noexcept]][[nodiscard]] engine_t create()`             |
-| $SG2851                                                      | dunno                                                     |
-| `?load@@YAXAAUengine_t@@PBD@Z (void __cdecl load(struct engine_t &,char const *))` | `[[noexcept]] void load(engine_t& engine, cstring level)` |
+| Symbol                                                       |                                                       |
+| ------------------------------------------------------------ | ----------------------------------------------------- |
+| `?create@@YA?AUengine_t@@XZ (struct engine_t __cdecl create(void))` | `[[nodiscard]] engine_t create() noexcept`            |
+| $SG2851                                                      | dunno                                                 |
+| `?load@@YAXAAUengine_t@@PBD@Z (void __cdecl load(struct engine_t &,char const *))` | `void load(engine_t& engine, cstring level) noexcept` |
 
 If we now look at what symbols we can find in `engine.lib`:
 

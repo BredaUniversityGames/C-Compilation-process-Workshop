@@ -25,4 +25,4 @@ struct engine_t{
     world_t world;    
 };
 
-[[noexcept]][[nodiscard ]] engine_t create();
+[[nodiscard ]] engine_t create() noexcept;

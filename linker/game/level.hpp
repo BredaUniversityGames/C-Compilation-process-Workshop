@@ -5,4 +5,4 @@ struct level{
 };
 
 
-[[noexcept]] void load(engine_t& engine, cstring level);
+void load(engine_t& engine, cstring level) noexcept;
